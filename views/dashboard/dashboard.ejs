@@ -1,0 +1,27 @@
+<h1>Dashboard</h1>
+<a href="/">Homepage</a>
+<a href="/dashboard/create">Create</a>
+
+// get notes from database
+<% notes.forEach(note => { %>
+    <div>
+        <table>
+        <tr>
+            <th>Logo</th>
+            <th>Title</th>
+            <th>Km/Month</th>
+            <th>Price</th>
+            <th>TruckType</th>
+            <th>View</th>
+        </tr>
+        <tr>
+            <td><%= note.logo %></td>
+            <td><%= note.title %></td>
+            <td><%= note.kmPerMonth %></td>
+            <td><%= note.price %></td>
+            <td><%= note.truckType %></td>
+            <td><a href="/dashboard/view/<%= note.id %>">view</a></td>
+        </tr>
+    </table>  
+    </div>
+<% }) %>

@@ -4,12 +4,17 @@ import express from 'express'
 import expressLayouts from 'express-ejs-layouts'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import Sequelize from './config/database.js'
+//routes
+import indexRouter from './routes/index.js'
+import noteRouter from './routes/noteRoutes.js'
 
 // express
 const app=express()
 
 
 // database configuration
+Sequelize.sync()
 
 
 
@@ -28,10 +33,11 @@ app.use(expressLayouts)
 app.set('layout','layout/layout')
 
 // routes
-app.get('/',(req,res)=>{
-    res.render('home')
-}   
-)
+// home route
+app.use('/',indexRouter)
+
+// dashboard route
+app.use('/dashboard',noteRouter)
 
 
 // start the server

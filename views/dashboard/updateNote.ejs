@@ -1,0 +1,10 @@
+<h1>Update</h1>
+<form action="/dashboard/update/<%= note.id %>" method="POST">
+    <input type="text" name="logo" placeholder="logo" value="<%= note.logo %>">
+    <input type="text" name="title" placeholder="Title" value="<%= note.title %>">
+    <input type="number" name="kmPerMonth" placeholder="kmPerMonth" value="<%= note.kmPerMonth %>">
+    <input type="number" name="price" placeholder="price" value="<%= note.price %>">
+    <input type="text" name="truckType" placeholder="trucktype" value="<%= note.truckType %>">
+    <textarea name="description" placeholder="description" id="" cols="30" rows="10" ><%= note.description %></textarea>
+    <button type="submit">Update</button>
+</from>
