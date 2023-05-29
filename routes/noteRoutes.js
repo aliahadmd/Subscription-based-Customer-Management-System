@@ -6,23 +6,24 @@ import {createNote, getNotes, viewNote, deleteNote, updateNote} from '../control
 
 const router=express.Router()
 
-//getnotes
+//getnotes.....................
 router.get('/',getNotes)
 
-//create note
+//create note....................
+// get create note page
 router.get('/create',(req,res)=>{
     res.render('dashboard/createNote')
 })
-
+// create note
 router.post('/create',createNote)
 
-//view single note
+//view single note....................
 router.get('/view/:id',viewNote)
 
-// delete note
+// delete note.....................
 router.get('/delete/:id',deleteNote)
 
-// update note
+// update note.........................
 router.get('/update/:id', asyncHandler(async (req, res) => {
     const note = await Note.findByPk(req.params.id);
     res.render('dashboard/updateNote', { note });

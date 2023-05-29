@@ -1,7 +1,14 @@
 import Note from "../models/note.js";
 import asyncHandler from "express-async-handler";
 
-//create nite
+
+// get notes
+const getNotes = asyncHandler(async (req, res) => {
+    const notes = await Note.findAll();
+    res.render("dashboard/dashboard", { notes });
+});
+
+//create note
 const createNote = asyncHandler(async (req, res) => {
     const { logo, title, kmPerMonth, price, truckType, description } = req.body;
     await Note.create({
@@ -13,14 +20,8 @@ const createNote = asyncHandler(async (req, res) => {
         description,
     });
     res.redirect("/dashboard");
-}   
-);
-
-// get notes
-const getNotes = asyncHandler(async (req, res) => {
-    const notes = await Note.findAll();
-    res.render("dashboard/dashboard", { notes });
 });
+
 
 //view single note
 const viewNote = asyncHandler(async (req, res) => {
