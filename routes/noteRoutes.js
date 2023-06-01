@@ -1,5 +1,5 @@
 import express from "express"; 
-import Note from "../models/note.js";
+import Note from "../models/Note.js";
 import asyncHandler from "express-async-handler";
 import {createNote, getNotes, viewNote, deleteNote, updateNote} from '../controllers/noteControllers.js'
 

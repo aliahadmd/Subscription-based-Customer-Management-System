@@ -8,6 +8,7 @@ import Sequelize from './config/database.js'
 //routes
 import indexRouter from './routes/index.js'
 import noteRouter from './routes/noteRoutes.js'
+import authRoutes from './routes/authRoutes.js'
 
 // express
 const app=express()
@@ -24,7 +25,7 @@ app.use(cookieParser())
 app.use(session({
     secret:process.env.SESSION_SECRET,
     resave:false,
-    saveUninitialized:false
+    saveUninitialized:false,
 }))
 
 // ejs configuration
@@ -35,6 +36,8 @@ app.set('layout','layout/layout')
 // routes
 // home route
 app.use('/',indexRouter)
+//auth routes
+app.use('/',authRoutes)
 
 // dashboard route
 app.use('/dashboard',noteRouter)
