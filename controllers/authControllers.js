@@ -2,7 +2,7 @@ import express from 'express';
 import User from '../models/User.js';
 import asyncHandler from 'express-async-handler';
 
-const signupControllers=asyncHandler(async(req,res)=>{
+const signupControllers = asyncHandler(async(req,res)=>{
     const { name, email, phone_number, vat, address, password, role } = req.body;
     // Check if the email already exists
     const existingUser = await User.findOne({ where: { email } });
@@ -24,7 +24,7 @@ const signupControllers=asyncHandler(async(req,res)=>{
 })
 
 // signin controller
-const signinControllers=asyncHandler(async(req,res)=>{
+const signinControllers = asyncHandler(async(req,res)=>{
     const { email, password } = req.body;
    // Find the user by email
    const user = await User.findOne({ where: { email } });
@@ -37,7 +37,5 @@ const signinControllers=asyncHandler(async(req,res)=>{
    // Redirect or send response
    res.redirect('/dashboard');
 })
-
-
 
 export {signupControllers, signinControllers};

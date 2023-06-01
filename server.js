@@ -28,10 +28,14 @@ app.use(session({
     saveUninitialized:false,
 }))
 
+// static files
+app.use(express.static('public'))
+
+
 // ejs configuration
-app.set('view engine','ejs')
 app.use(expressLayouts)
 app.set('layout','layout/layout')
+app.set('view engine','ejs')
 
 // routes
 // home route

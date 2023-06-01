@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="corporate">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +7,16 @@
     <link rel="stylesheet" href="css/output.css">
 </head>
 <body>
-    <header>
+   
         <%- include('../components/header.ejs') %>
-
-    </header>
-    <main>
-
-      <%- body %>
-    </main>
-    <footer>
-      <%- include('../components/footer.ejs') %>
-    </footer>
+  
+    <div class="flex">
+        <div class="w-1/5"><%- include('../components/sidebar.ejs') %></div>  
+        <div class="w-4/5"><%- body %></div>
+    </div>
+   
+ 
+        <%- include('../components/footer.ejs') %>
+  
 </body>
 </html>

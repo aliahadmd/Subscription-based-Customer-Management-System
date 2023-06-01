@@ -18,4 +18,10 @@ router.get('/signin', (req, res) => {
 //signin post route
 router.post("/signin", signinControllers)
 
+//signout route
+router.get("/signout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/signin");
+});
+
 export default router;

@@ -1,13 +1,16 @@
 <h1>dashboard</h1>
 <a href="/">Homepage</a>
-<a href="/dashboard/create">Create</a>
 
+<br>
 
+<br>
 // get notes from database
 <% notes.forEach(note => { %>
-    <div>
+    <div class="bg-red-700">
         <br>
+
         <h1><%= note.User.email %></h1>
+  
         <br>
         <table>
         <tr>
