@@ -30,7 +30,8 @@ const getNotes = asyncHandler(async (req, res) => {
 //create note
 const createNote = asyncHandler(async (req, res) => {
     if (req.session.role === 'customer') {
-    const { logo, title, kmPerMonth, price, truckType, description } = req.body;
+    const { title, kmPerMonth, price, truckType, description } = req.body;
+    const logo = req.file.filename;
     await Note.create({
         logo,
         title,
@@ -51,7 +52,7 @@ const createNote = asyncHandler(async (req, res) => {
 const viewNote = asyncHandler(async (req, res) => {
     if (req.session.role === 'customer'|| req.session.role === 'subscriber' || req.session.role === 'admin') {
         const note = await Note.findByPk(req.params.id, { include: User });
-    res.render("dashboard/viewnote", { note, layout: 'layout/sidebarLayout'});
+    res.render("dashboard/viewNote", { note, layout: 'layout/sidebarLayout'});
     };
 });
 
@@ -68,8 +69,14 @@ const deleteNote = asyncHandler(async (req, res) => {
 
 //update single note
 const updateNote = asyncHandler(async (req, res) => {
-    const { logo, title, kmPerMonth, price, truckType, description } = req.body;
+    const { title, kmPerMonth, price, truckType, description } = req.body;
     if (req.session.role === 'customer' || req.session.role === 'admin') {
+        let logo;
+
+        if (req.file) {
+          // If a new logo file is uploaded, update the logo field
+          logo = req.file.filename;
+        }
     await Note.update(
         {
             logo,

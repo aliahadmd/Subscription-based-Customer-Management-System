@@ -10,11 +10,32 @@
    
         <%- include('../components/header.ejs') %>
   
-    <div class="flex">
-        <div class="w-1/5"><%- include('../components/sidebar.ejs') %></div>  
-        <div class="w-4/5"><%- body %></div>
-    </div>
-   
+  
+
+
+    <div class="drawer lg:drawer-open">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content">
+            <label for="my-drawer" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+            <%- body %>
+        </div> 
+        <div class="drawer-side">
+          <label for="my-drawer" class="drawer-overlay"></label>
+          <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+            <!-- Sidebar content here -->
+            <li><a href="/dashboard/create">Create</a></li>
+        <hr class="border border-gray-300">
+        <li><a href="/dashboard">dashboard</a></li>
+        <hr class="border border-gray-300">
+        <li><a href="/">Homepage</a></li>
+        <hr class="border border-gray-300">
+        <li><a href="/signout">Signout</a></li>
+            
+          </ul>
+        </div>
+      </div>
+
+
  
         <%- include('../components/footer.ejs') %>
   

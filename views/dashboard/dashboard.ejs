@@ -1,35 +1,81 @@
-<h1>dashboard</h1>
-<a href="/">Homepage</a>
 
-<br>
-
-<br>
-// get notes from database
+<!-- get notes from database -->
 <% notes.forEach(note => { %>
-    <div class="bg-red-700">
-        <br>
+    <div class="flex flex-col py-6 items-center bg-neutral text-primary-content min-w-auto">
+        <div class="flex flex-row">
+            <p class="pr-2">Name: </p>
+            <p><%= note.User.name %></p>
+        </div>
+        <div class="flex flex-row">
+            <p class="pr-2">Email: </p>
+            <p><%= note.User.email %></p>
+        </div>
+        <div class="flex flex-row">
+            <p class="pr-2">Phone: </p>
+            <p><%= note.User.phone_number %></p>
+        </div>
+        <div class="flex flex-row">
+            <p class="pr-2">Address: </p>
+            <p><%= note.User.address %></p>
+        </div>    
+      
+    </div>
 
-        <h1><%= note.User.email %></h1>
-  
-        <br>
-        <table>
+        
+<div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
         <tr>
-            <th>Logo</th>
+          
+          <th>Logo</th>
+            <th>Title</th>
+            <th>Km/Month</th>
+            <th>Price</th>
+            <th>TruckType</th>
+            <th>View</th>
+      
+        </tr>
+      </thead>
+      <tbody>
+        <!-- row 1 -->
+        <tr>
+          <td>
+            <div class="flex items-center space-x-3">
+                <div class="avatar">
+                  <div class="mask mask-squircle w-12 h-12">
+            <% if (note.logo) { %>
+                <img src="/images/<%= note.logo %>" alt="Logo" class="logo-image">
+              <% }else{ %>
+                <h3>no logo</h3>
+                <% } %>
+            </div>
+        </div>
+        <div>
+          </td>
+          <td><%= note.title.slice(0, 6) %></td>
+          <td><%= note.kmPerMonth %></td>
+          <td><%= note.price %></td>
+          <td><%= note.truckType.slice(0, 6) %></td>
+          <th>
+            <button class="btn btn-primary btn-xs"><a href="/dashboard/view/<%= note.id %>">View Details</a></button>
+          </th>
+        </tr>
+        
+      <!-- foot -->
+      <tfoot>
+        <tr>
+         
+          <th>Logo</th>
             <th>Title</th>
             <th>Km/Month</th>
             <th>Price</th>
             <th>TruckType</th>
             <th>View</th>
         </tr>
-        <tr>
-            <td><%= note.logo %></td>
-            <td><%= note.title %></td>
-            <td><%= note.kmPerMonth %></td>
-            <td><%= note.price %></td>
-            <td><%= note.truckType %></td>
-            <td><a href="/dashboard/view/<%= note.id %>">view</a></td>
-           
-        </tr>
-    </table>  
-    </div>
-<% }) %>
+      </tfoot>
+      
+    </table>
+  </div>
+  <% }) %>
+  

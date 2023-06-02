@@ -1,4 +1,5 @@
 import { DataTypes } from "sequelize";
+import bcrypt from 'bcrypt';
 import sequelize from "../config/database.js";
 
 const User = sequelize.define('User', {
@@ -42,5 +43,15 @@ const User = sequelize.define('User', {
         defaultValue: true
     }
 });
+
+User.beforeCreate(async (user) => {
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(user.password, salt);
+      user.password = hashedPassword;
+    } catch (error) {
+      throw new Error('Error hashing password');
+    }
+  });
 
 export default User;
