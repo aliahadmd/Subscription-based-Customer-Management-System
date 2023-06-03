@@ -5,6 +5,7 @@ import Note from "../models/Note.js";
 import asyncHandler from "express-async-handler";
 import {createNote, getNotes, viewNote, deleteNote, updateNote} from '../controllers/noteControllers.js'
 import {isAuthenticated} from '../middlewares/authMiddleware.js'
+import { body } from 'express-validator';
 
 const router=express.Router()
 
@@ -34,7 +35,14 @@ router.get('/create', isAuthenticated, (req,res)=>{
     res.render('dashboard/createNote', { layout: 'layout/sidebarLayout'})
 })
 // create note
-router.post('/create', isAuthenticated, upload.single('logo'), createNote)
+router.post('/create', [
+  body('logo').notEmpty().withMessage('Name is required'),
+  body('title').isEmail().withMessage('Invalid email').normalizeEmail(),
+  body('kmPerMonth').notEmpty().withMessage('Phone number is required'),
+  body('price').notEmpty().withMessage('VAT is required'),
+  body('truckType').notEmpty().withMessage('Address is required'),
+  body('description').notEmpty().withMessage('Password is required')
+], isAuthenticated, upload.single('logo'), createNote),
 
 //view single note....................
 router.get('/view/:id', isAuthenticated, viewNote)
@@ -49,7 +57,14 @@ router.get('/update/:id', isAuthenticated, asyncHandler(async (req, res) => {
 }));
 
 //update note
-router.post('/update/:id', isAuthenticated, upload.single('logo'), updateNote)
+router.post('/update/:id', [
+  body('logo').notEmpty().withMessage('Name is required'),
+  body('title').isEmail().withMessage('Invalid email').normalizeEmail(),
+  body('kmPerMonth').notEmpty().withMessage('Phone number is required'),
+  body('price').notEmpty().withMessage('VAT is required'),
+  body('truckType').notEmpty().withMessage('Address is required'),
+  body('description').notEmpty().withMessage('Password is required')
+], isAuthenticated, upload.single('logo'), updateNote)
 
 
 

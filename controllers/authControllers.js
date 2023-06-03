@@ -29,6 +29,7 @@ const signupControllers = asyncHandler(async(req,res)=>{
     });
     // redirect to login page
     res.redirect('/signin');
+
 })
 
 // signin controller

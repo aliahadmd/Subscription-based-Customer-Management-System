@@ -37,6 +37,15 @@ app.use(expressLayouts)
 app.set('layout','layout/layout')
 app.set('view engine','ejs')
 
+
+// global variable to hide signup and signin when user is logged in
+app.use((req,res,next)=>{
+    res.locals.user=req.session.user
+    const userId=req.session.userId
+    res.locals.userId=userId
+    next()
+}) 
+
 // routes
 // home route
 app.use('/',indexRouter)

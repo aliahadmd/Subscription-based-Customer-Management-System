@@ -16,14 +16,14 @@
     <div class="drawer lg:drawer-open">
         <input id="my-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
-            <label for="my-drawer" class="btn btn-primary drawer-button lg:hidden">Open drawer</label>
+            <label for="my-drawer" class="btn btn-primary drawer-button lg:hidden">Open Sidebar</label>
             <%- body %>
         </div> 
         <div class="drawer-side">
           <label for="my-drawer" class="drawer-overlay"></label>
-          <ul class="menu p-4 w-80 h-full bg-base-200 text-base-content">
+          <ul class="menu pl-4 pr-4 pt-8 pb-4 w-80 h-full bg-base-200 text-base-content">
             <!-- Sidebar content here -->
-            <li><a href="/dashboard/create">Create</a></li>
+            <li class="lg:tooltip" data-tip="* only (Freight Fordarders) can create!"><a href="/dashboard/create">Create</a></li>
         <hr class="border border-gray-300">
         <li><a href="/dashboard">dashboard</a></li>
         <hr class="border border-gray-300">
