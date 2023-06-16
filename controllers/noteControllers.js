@@ -1,6 +1,7 @@
 import Note from "../models/Note.js";
 import asyncHandler from "express-async-handler";
 import User from "../models/User.js";
+import { stripe } from "../config/stripe.js";
 
 
 
@@ -51,11 +52,39 @@ const createNote = asyncHandler(async (req, res) => {
 
 //view single note
 const viewNote = asyncHandler(async (req, res) => {
-    if (req.session.role === 'customer' || req.session.role === 'subscriber' || req.session.role === 'admin') {
+    if (req.session.role === 'customer' || req.session.role === 'admin') {
         const note = await Note.findByPk(req.params.id, { include: User });
         res.render("dashboard/viewNote", { note, layout: 'layout/sidebarLayout' });
-    };
+    } else if(req.session.role === 'subscriber'){
+        // if subscriber is paid then able to view single note otherwise redirect to subscribe page
+        const user = await User.findByPk(req.session.userId);
+        const subscriptions= await stripe.subscriptions.list({
+            customer: user.stripeCustomerId,
+            status: 'active',
+        },
+            {
+                apiKey: process.env.STRIPE_SECRET_KEY,
+            });
+
+            console.log(subscriptions)
+
+            if(!subscriptions.data[0]) {res.redirect('/dashboard/view/subscribe')}
+            else{
+                const note = await Note.findByPk(req.params.id, { include: User });
+                res.render("dashboard/viewNote", { note, layout: 'layout/sidebarLayout' });
+            }
+    }else {
+        res.redirect('signin');
+
+        
+        
+        
+        
+    }
 });
+
+
+
 
 // delete single note
 const deleteNote = asyncHandler(async (req, res) => {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body>
+
+ 
+
+    
+    <div class="flex flex-row gap-3">
+        <p>Price:<%= prices.data[0].nickname %> </p>
+       
+        <!-- router.post('/view/subscribe', isAuthenticated, asyncHandler(async(req,res)=>{
+            const {priceId} = req.body;
+            const session = await stripe.checkout.sessions.create({
+              payment_method_types: ['card'],
+              line_items: [
+                {
+                  price: priceId,
+                  quantity: 1,
+                },
+              ],
+              mode: 'subscription',
+              success_url: 'http://localhost:3000/dashboard',
+              cancel_url: 'http://localhost:3000/dashboard',
+            });
+            res.redirect(session.url);
+          }
+          )); -->
+
+        <form action="/dashboard/view/subscribe" method="POST">
+            <input type="hidden" name="priceId" value="<%= prices.data[0].id %>">
+            <button class="btn btn-primary">Subscribe</button>
+        </form>
+        
+          
+
+
+
+    </div>
+
+
+
+
+</body>

@@ -41,7 +41,11 @@ const User = sequelize.define('User', {
     isVerified: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
-    }
+    },
+    stripeCustomerId: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
 });
 
 User.beforeCreate(async (user) => {

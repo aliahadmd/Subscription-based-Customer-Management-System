@@ -48,9 +48,8 @@ app.use((req,res,next)=>{
 
 // routes
 // home route
-app.use('/',indexRouter)
-//auth routes
-app.use('/',authRoutes)
+app.use('/',indexRouter, authRoutes)
+
 
 // dashboard route
 app.use('/dashboard',noteRouter)

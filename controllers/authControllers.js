@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import asyncHandler from 'express-async-handler';
 import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
+import { stripe } from '../config/stripe.js';
 
 const signupControllers = asyncHandler(async(req,res)=>{
   const errors = validationResult(req);
@@ -17,6 +18,9 @@ const signupControllers = asyncHandler(async(req,res)=>{
     if (existingUser) {
       return res.status(400).json({ message: 'Email already exists' });
     }
+
+   
+   
     // create a new user
     const user = await User.create({
         name,
@@ -25,8 +29,29 @@ const signupControllers = asyncHandler(async(req,res)=>{
         vat,
         address,
         password,
-        role
+        role,
     });
+
+ // if user role is subscriber, create a stripe customer
+ if (role === 'subscriber') {
+  const customer = await stripe.customers.create(
+    {
+      email: req.session.email,
+    },
+    {
+      apiKey: process.env.STRIPE_SECRET_KEY,
+    }
+  );
+
+  // save stripe customer id to the user
+  await user.update({ stripeCustomerId: customer.id });
+
+  
+
+  
+}
+
+
     // redirect to login page
     res.redirect('/signin');
 

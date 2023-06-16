@@ -6,6 +6,8 @@ import asyncHandler from "express-async-handler";
 import {createNote, getNotes, viewNote, deleteNote, updateNote} from '../controllers/noteControllers.js'
 import {isAuthenticated} from '../middlewares/authMiddleware.js'
 import { body } from 'express-validator';
+import {stripe} from '../config/stripe.js'
+import User from "../models/User.js";
 
 const router=express.Router()
 
@@ -44,6 +46,39 @@ router.post('/create', [
   body('description').notEmpty().withMessage('Password is required')
 ], isAuthenticated, upload.single('logo'), createNote),
 
+// view subscription page
+router.get ('/view/subscribe', isAuthenticated, async(req,res)=>{
+  const prices = await stripe.prices.list({
+    apiKey: process.env.STRIPE_SECRET_KEY,
+});
+  res.render('dashboard/subscribe', {prices, layout: 'layout/sidebarLayout'})
+});
+
+// post stripe session and redirect to stripe checkout page. if successfully paid then redirect to dashboard. if subscriber role paid then access view single note
+router.post('/view/subscribe', isAuthenticated, asyncHandler(async(req,res)=>{
+  const user = await User.findByPk(req.session.userId);
+  const {priceId} = req.body;
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: [
+      {
+        price: priceId,
+        quantity: 1,
+      },
+    ],
+    mode: 'subscription',
+    success_url: 'http://localhost:3000/dashboard',
+    cancel_url: 'http://localhost:3000/dashboard',
+    customer: user.stripeCustomerId
+  },
+  {
+    apiKey: process.env.STRIPE_SECRET_KEY,
+  }
+  );
+  res.redirect(session.url);
+}
+));
+
 //view single note....................
 router.get('/view/:id', isAuthenticated, viewNote)
 
@@ -69,7 +104,53 @@ router.post('/update/:id', [
 
 
 
+router.get('/me', isAuthenticated, asyncHandler(async (req, res) => {
+  if (req.session.role === 'admin') {
+    const users = await User.findAll();
+    res.render('dashboard/me', { users: users, layout: 'layout/sidebarLayout' });
+  } else {
+    const user = await User.findByPk(req.session.userId);
+    let subscription; // Define the subscription variable
+    if (req.session.role === 'subscriber') {
+      const user = await User.findByPk(req.session.userId);
+      subscription = await stripe.subscriptions.list(
+        {
+          customer: user.stripeCustomerId,
+          status: 'all',
+        },
+        {
+          apiKey: process.env.STRIPE_SECRET_KEY,
+        }
+      );
+      console.log(subscription);
+    }
+    res.render('dashboard/me', { user: user, subscription: subscription, layout: 'layout/sidebarLayout' });
+  }
+}));
 
+
+
+
+
+
+ 
+
+// if admin then delete user
+router.get('/me/:id', isAuthenticated, asyncHandler(async(req,res)=>{
+  if (req.session.role === 'admin') {
+  try{
+    const user = await User.findByPk(req.params.id);
+    await user.destroy();
+    res.redirect('/dashboard/me');
+  }
+  catch(err){
+    res.redirect('/dashboard/me');
+  }
+} else{
+  res.send('You are not authorized to delete user');
+}
+
+}));
 
 
 export default router
