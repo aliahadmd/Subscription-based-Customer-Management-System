@@ -40,7 +40,7 @@ const User = sequelize.define('User', {
     },
     isVerified: {
         type: DataTypes.BOOLEAN,
-        defaultValue: true
+        defaultValue: false
     },
     stripeCustomerId: {
         type: DataTypes.STRING,

@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import {signupControllers, signinControllers} from "../controllers/authControllers.js";
+import {signupControllers, signinControllers, verifyController} from "../controllers/authControllers.js";
 import { body } from 'express-validator';
 
 //show signup.ejs page
@@ -18,6 +18,10 @@ router.post("/signup", [
     body('password').notEmpty().withMessage('Password is required'),
     body('role').notEmpty().withMessage('Role is required'),
   ], signupControllers)
+
+
+// verify
+router.get("/verify", verifyController);
 
 // Signin route
 router.get('/signin', (req, res) => {

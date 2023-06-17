@@ -1,4 +1,4 @@
-<div class="navbar bg-base-100 max-w-6xl m-auto">
+<div class="navbar bg-base-100 max-w-6xl m-auto border-b border-slate-300">
   <div class="navbar-start">
     <div class="dropdown">
       <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -8,11 +8,15 @@
       </label>
       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
         <% if (!userId) { %>
-        <li><a href="/signup">Sign Up</a></li>
-        <li><a href="/signin">Sign In</a></li>
+          <li><a href="/signup">Sign Up</a></li>
+          <li><a href="/signin">Sign In</a></li>
+          <li><a href="/dashboard/create">Create Round-Trip</a></li>
+          <li><a href="/dashboard">View Round-Trip</a></li>
         <% } else { %>
-        <li><a href="/profile">Profile</a></li>
-        <li><a href="/logout">Logout</a></li>
+          <li><a href="/dashboard/me">Profile</a></li>
+          <li><a href="/logout">Signout</a></li>
+          <li><a href="/dashboard/create">Create Round-Trip</a></li>
+          <li><a href="/dashboard">View Round-Trip</a></li>
         <% } %>
       </ul>
     </div>
@@ -23,12 +27,20 @@
       <% if (!userId) { %>
       <li><a href="/signup">Sign Up</a></li>
       <li><a href="/signin">Sign In</a></li>
-      <% } %> 
+      <li><a href="/dashboard/create">Create Round-Trip</a></li>
+      <li><a href="/dashboard">View Round-Trip</a></li>
+      
+      <% } else { %>
+        <li><a href="/dashboard/me">Profile</a></li>
+        <li><a href="/logout">Signout</a></li>
+        <li><a href="/dashboard/create">Create Round-Trip</a></li>
+        <li><a href="/dashboard">View Round-Trip</a></li>
+        <% } %>
     </ul>
   </div>
   <div class="navbar-end">
 
-    <a href="/dashboard" class="btn">Dashboard</a>
+    <a href="/dashboard" class="btn btn-neutral">Dashboard</a>
 
   </div>
 </div>
