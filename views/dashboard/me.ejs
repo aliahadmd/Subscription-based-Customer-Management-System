@@ -53,9 +53,11 @@
                             <td><%= user.address %></td>
                             <td><%= user.role %></td>
                             <td><%= user.isVerified %></td>
-                            <% if (typeof subscription !== 'undefined' && user.role === 'subscriber') { %>
-                                <td><%= subscription.data[0].status %></td>
-                            <% } %>
+                            <% if (typeof subscription !== 'undefined' && user.role === 'subscriber' && subscription.data && subscription.data.length > 0) { %>
+                                    <td><%= subscription.data[0].status %></td>
+                                <% }else{%>
+                                    <td>Not Subscribed</td>
+                                <% } %>
                             <td><a href="/dashboard/me/<%= user.id %>" class="badge badge-error delete-link">Delete</a></td>
                         </tr>
                     <% } %>
